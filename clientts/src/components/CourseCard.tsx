@@ -19,7 +19,7 @@ const CourseCard: React.FC<any> = ({
   const handleDel = async () => {
     try {
       const res = await axios.delete(
-        `https://fabinaschool.onrender.com/courses/delete/${item._id}`
+        `https://coursesserver-ts.onrender.com/courses/delete/${item._id}`
       );
 
       if (res.data.educatorId) {

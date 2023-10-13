@@ -46,7 +46,7 @@ const Update = ({ rel, setRel, courseInfo }: UpdateProps) => {
               lastName: lastName,
             };
             const res = await fetch(
-              `https://fabinaschool.onrender.com/courses/update/${courseInfo._id}`,
+              `https://coursesserver-ts.onrender.com/courses/update/${courseInfo._id}`,
               {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },

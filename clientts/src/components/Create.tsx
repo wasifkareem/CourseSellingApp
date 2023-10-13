@@ -43,7 +43,7 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
               lastName: lastName,
             };
             const res = await fetch(
-              "https://fabinaschool.onrender.com/courses/addCourse",
+              "https://coursesserver-ts.onrender.com/courses/addCourse",
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

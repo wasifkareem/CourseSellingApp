@@ -38,7 +38,7 @@ const Login: React.FC<{}> = () => {
                 "Content-Type": "application/json",
               };
               const res = await axios.post(
-                "https://fabinaschool.onrender.com/auth/login",
+                "https://coursesserver-ts.onrender.com/auth/login",
                 JSON.stringify(values),
                 { headers }
               );
