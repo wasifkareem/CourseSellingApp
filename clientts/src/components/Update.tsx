@@ -1,12 +1,22 @@
 import { Formik, Field, Form, useField } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { RootState } from "../app/store";
 
-const Update = ({ rel, setRel, courseInfo }) => {
-  const educatorId = useSelector((state) => state.user.educator._id);
-  const firstName = useSelector((state) => state.user.educator.firstName);
-  const lastName = useSelector((state) => state.user.educator.lastName);
+interface UpdateProps {
+  rel: boolean;
+  setRel: (newValue: boolean) => void;
+  courseInfo: any;
+}
+
+const Update = ({ rel, setRel, courseInfo }: UpdateProps) => {
+  const educatorId = useSelector((state: RootState) => state.user.educator._id);
+  const firstName = useSelector(
+    (state: RootState) => state.user.educator.firstName
+  );
+  const lastName = useSelector(
+    (state: RootState) => state.user.educator.lastName
+  );
 
   return (
     <div>
@@ -73,6 +83,7 @@ const Update = ({ rel, setRel, courseInfo }) => {
                 id="desc"
                 name="desc"
                 placeholder="desc"
+                label={null}
               />
               {errors.desc && touched.desc ? (
                 <div className=" text-red-600 sm:ml-10 ml-4">{errors.desc}</div>
@@ -102,7 +113,7 @@ const Update = ({ rel, setRel, courseInfo }) => {
                 </div>
               ) : null}
 
-              <p className=" text-red-500 ml-4 sm:ml-10">{alert}</p>
+              {/* <p className=" text-red-500 ml-4 sm:ml-10">{alert}</p> */}
 
               <button
                 className=" text-white font-semibold bg-cyan-900 sm:mx-10 rounded m-4 mb-0 h-12 mt-7 hover:bg-red-800"
@@ -117,8 +128,9 @@ const Update = ({ rel, setRel, courseInfo }) => {
     </div>
   );
 };
-const MyTextArea = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
+
+const MyTextArea = ({ label, ...props }: any) => {
+  const [field] = useField(props);
   return (
     <>
       <label htmlFor={props.id || props.name}>{label}</label>

@@ -7,7 +7,7 @@ import { RootState } from "../app/store";
 
 const Userpage: React.FC<{}> = () => {
   const name = useSelector((state: RootState) => state.user.educator.firstName);
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   return (
     <>

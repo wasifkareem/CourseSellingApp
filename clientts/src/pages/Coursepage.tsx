@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+// import carRental from "../data/carRental.mp4";
 
 type Course = {
   educatorId: string;
@@ -44,6 +45,13 @@ const Coursepage: React.FC<{}> = () => {
             alt="cspic"
           />
         </div>
+        {/* <video
+          className="w-[600px] rounded-lg mt-10"
+          width="600px"
+          height="300px"
+          controls
+          src={carRental}
+        /> */}
         <div className="  flex flex-col">
           <h1 className=" mt-4 ml-4 text-4xl font-semibold sm:mt-16 sm:ml-10">
             {courseInfo?.title}

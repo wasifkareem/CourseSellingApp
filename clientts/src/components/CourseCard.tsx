@@ -2,21 +2,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import axios from "axios";
 
-interface Cardprops {
-  setCourseInfo: (newValue: string) => void;
-  setUpdatecard: (newValue: boolean) => void;
-  reload: boolean;
-  setReload: (newValue: boolean) => void;
-  item: any;
-}
-
-const CourseCard = ({
+const CourseCard: React.FC<any> = ({
   setCourseInfo,
   setUpdatecard,
   reload,
   setReload,
   item,
-}: Cardprops) => {
+}) => {
   const navigate = useNavigate();
   const ifHome = useLocation();
 

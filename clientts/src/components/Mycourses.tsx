@@ -7,13 +7,12 @@ import Update from "./Update";
 import { RootState } from "../app/store";
 import { CourseData } from "./Courses";
 
-const Mycourses = (refresh) => {
+const Mycourses = (refresh: any) => {
   const eduId = useSelector((state: RootState) => state.user.educator._id);
   const [reload, setReload] = useState<boolean>(false);
   const [updatecard, setUpdatecard] = useState<boolean>(false);
   const [rel, setRel] = useState<boolean>(false);
   const [courseInfo, setCourseInfo] = useState<any>("");
-
   const [courses, setCourses] = useState<CourseData>([]);
   const modifiedInfo = courses.find((item) => item._id == courseInfo._id);
 
