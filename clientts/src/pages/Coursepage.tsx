@@ -46,7 +46,7 @@ const Coursepage: React.FC<{}> = () => {
           />
         </div>
         <div className="  flex flex-col mt-2 sm:w-1/2">
-          <h1 className=" mt-4 ml-4 sm:text-5xl text-3xl font-semibold text-gray-800 first-letter:uppercase sm:mt-16 sm:ml-10">
+          <h1 className=" mt-4 mx-2 sm:text-5xl text-3xl font-semibold text-gray-800 first-letter:uppercase sm:mt-24 mb-5 sm:mb-10 sm:ml-10">
             {courseInfo?.title}
           </h1>
           <div className=" flex flex-col justify-between  min-h-[250px] sm:min-h-[350px] ">
