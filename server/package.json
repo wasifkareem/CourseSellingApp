@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "npm build",
     "start": "node dist/index.js"
   },
   "author": "",
