@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,16 +7,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const User_js_1 = __importDefault(require("../models/User.js"));
-const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
+import User from "../models/User.js";
+import express from "express";
+const router = express.Router();
 //REGISTER
 router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newUser = new User_js_1.default({
+    const newUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -34,7 +29,7 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
 //LOGIN
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_js_1.default.findOne({
+        const user = yield User.findOne({
             email: req.body.email,
             password: req.body.password,
         });
@@ -47,4 +42,4 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.log("hello");
     }
 }));
-exports.default = router;
+export default router;

@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,17 +7,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const Course_js_1 = __importDefault(require("../models/Course.js"));
-const router = express_1.default.Router();
+import express from "express";
+import Course from "../models/Course.js";
+const router = express.Router();
 //GET ALL COURSES
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const courses = (yield Course_js_1.default.find()).reverse();
+        const courses = (yield Course.find()).reverse();
         res.status(200).json(courses);
     }
     catch (err) {
@@ -29,7 +24,7 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 //GET COURSES BY ID
 router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const course = yield Course_js_1.default.findById(req.params.id);
+        const course = yield Course.findById(req.params.id);
         res.status(200).json(course);
     }
     catch (err) {
@@ -40,7 +35,7 @@ router.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 //DELETE COURSE BY ID
 router.delete("/delete/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const course = yield Course_js_1.default.findByIdAndDelete(req.params.id);
+        const course = yield Course.findByIdAndDelete(req.params.id);
         res.status(200).json(course);
     }
     catch (err) {
@@ -51,11 +46,10 @@ router.delete("/delete/:id", (req, res) => __awaiter(void 0, void 0, void 0, fun
 //UPDATE COURSE BY ID
 router.put("/update/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const course = yield Course_js_1.default.findByIdAndUpdate(req.params.id, {
+        const course = yield Course.findByIdAndUpdate(req.params.id, {
             title: req.body.title,
             desc: req.body.desc,
             img: req.body.img,
-            price: req.body.price,
             educatorId: req.body.educatorId,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -70,7 +64,7 @@ router.put("/update/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
 //GET MY COURSES
 router.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const course = (yield Course_js_1.default.find({ educatorId: req.params.id })).reverse();
+        const course = (yield Course.find({ educatorId: req.params.id })).reverse();
         res.status(200).json(course);
     }
     catch (err) {
@@ -79,8 +73,8 @@ router.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 }));
 //CREATE COURSES
-router.post("/addCourse", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newCourse = new Course_js_1.default(req.body);
+export const addCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newCourse = new Course(req.body);
     try {
         const savedCourse = yield newCourse.save();
         res.status(200).json(savedCourse);
@@ -89,5 +83,5 @@ router.post("/addCourse", (req, res) => __awaiter(void 0, void 0, void 0, functi
         console.log("hello");
         res.status(500).json(err);
     }
-}));
-exports.default = router;
+});
+export default router;

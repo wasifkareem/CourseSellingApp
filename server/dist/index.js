@@ -1,32 +1,44 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const cors_1 = __importDefault(require("cors"));
-const courses_js_1 = __importDefault(require("./routes/courses.js"));
-const auth_js_1 = __importDefault(require("./routes/auth.js"));
-const helmet_1 = __importDefault(require("helmet"));
-const body_parser_1 = __importDefault(require("body-parser"));
-const app = (0, express_1.default)();
+import express from "express";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import cors from "cors";
+import courseRoute, { addCourse } from "./routes/courses.js";
+import authRoute from "./routes/auth.js";
+import helmet from "helmet";
+import bodyParser from "body-parser";
+import { fileURLToPath } from "url";
+import path from "path";
+import multer from "multer";
+const app = express();
 const port = 3000;
-dotenv_1.default.config();
-app.use((0, helmet_1.default)());
-app.use(helmet_1.default.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use((0, cors_1.default)({ origin: "*", methods: "GET,PUT,POST,DELETE" }));
-app.use(express_1.default.json());
-app.use(body_parser_1.default.json({ limit: "30mb" }));
-mongoose_1.default
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config();
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(cors({ origin: "*", methods: "GET,PUT,POST,DELETE" }));
+app.use(express.json());
+app.use(bodyParser.json({ limit: "30mb" }));
+mongoose
     .connect(String(process.env.MONGO_URL))
     .then(() => console.log("DB is online"))
     .catch((err) => {
     console.log(err);
 });
-app.use("/courses", courses_js_1.default);
-app.use("/auth", auth_js_1.default);
+app.use("/assets", express.static(path.join(__dirname, "../public/assets")));
+//File storage
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/assets");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    },
+});
+const upload = multer({ storage });
+app.post("/courses/addCourse", upload.fields([{ name: "videoFile" }, { name: "imgFile" }]), addCourse);
+app.use("/courses", courseRoute);
+app.use("/auth", authRoute);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

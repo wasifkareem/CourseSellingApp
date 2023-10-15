@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response, Request } from "express";
 import Course from "../models/Course.js";
 const router = express.Router();
 
@@ -42,7 +42,6 @@ router.put("/update/:id", async (req, res) => {
       title: req.body.title,
       desc: req.body.desc,
       img: req.body.img,
-      price: req.body.price,
       educatorId: req.body.educatorId,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -66,7 +65,7 @@ router.get("/user/:id", async (req, res) => {
 });
 
 //CREATE COURSES
-router.post("/addCourse", async (req, res) => {
+export const addCourse = async (req: Request, res: Response) => {
   const newCourse = new Course(req.body);
   try {
     const savedCourse = await newCourse.save();
@@ -75,6 +74,6 @@ router.post("/addCourse", async (req, res) => {
     console.log("hello");
     res.status(500).json(err);
   }
-});
+};
 
 export default router;
