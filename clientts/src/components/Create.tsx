@@ -1,54 +1,87 @@
 import { Formik, Field, Form, useField } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { useState } from "react";
+
 interface ToogleProps {
   refresh: boolean;
   setRefresh: (newValue: boolean) => void;
 }
+
+interface FormVal {
+  title: string;
+  desc: string;
+  videoFile: string;
+  imgFile: string;
+}
+
 const Create = ({ refresh, setRefresh }: ToogleProps) => {
-  const educatorId = useSelector((state: RootState) => state.user.educator._id);
-  const firstName = useSelector(
-    (state: RootState) => state.user.educator.firstName
-  );
-  const lastName = useSelector(
-    (state: RootState) => state.user.educator.lastName
-  );
+  const initialValues: FormVal = {
+    title: "",
+    desc: "",
+    videoFile: "",
+    imgFile: "",
+  };
+  const educatorId = useSelector((state: any) => state.user.educator._id);
+  const firstName = useSelector((state: any) => state.user.educator.firstName);
+  const lastName = useSelector((state: any) => state.user.educator.lastName);
+
+  //VIDEO HANDLE
+  const [selectedFile, setSelectedFile] = useState<any>();
+  const [preview, setPreview] = useState<any>();
+
+  const handleFileChange = (e: any) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    const maxSize = 50 * 1024 * 1024;
+
+    if (file && file.size > maxSize) {
+      alert("max size allowed is 50MB");
+    } else {
+      setPreview(url);
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  //IMG HANDLE
+  const [ImgFile, setImgFile] = useState<any>();
+  const [imgPreview, setImgPreview] = useState<any>();
+  const handleImage = (e: any) => {
+    setImgFile(e.target.files[0]);
+    const url = URL.createObjectURL(e.target.files[0]);
+    setImgPreview(url);
+  };
 
   return (
     <div>
       <div className="  ">
         <Formik
-          initialValues={{
-            title: "",
-            desc: "",
-            img: "",
-            price: "",
-          }}
+          initialValues={initialValues}
           validationSchema={Yup.object().shape({
             title: Yup.string().required("Required!"),
             desc: Yup.string().required("Required!"),
-            img: Yup.string().required("Required!"),
-            price: Yup.string().required("Required!"),
+            videoFile: Yup.string(),
+            imgFile: Yup.string(),
           })}
-          onSubmit={async (values, { resetForm }) => {
-            const info = values;
-            const data = {
-              title: info.title,
-              desc: info.desc,
-              img: info.img,
-              price: info.price,
-              educatorId: educatorId,
-              firstName: firstName,
-              lastName: lastName,
-            };
+          onSubmit={async (values: any, { resetForm }) => {
+            const formData = new FormData();
+            for (let value in values) {
+              formData.append(value, values[value]);
+            }
+            formData.append("videoFile", selectedFile);
+            formData.append("videoPath", selectedFile.name);
+            formData.append("educatorId", educatorId);
+            formData.append("firstName", firstName);
+            formData.append("lastName", lastName);
+            formData.append("imgPath", ImgFile.name);
+            formData.append("imgFile", ImgFile);
+
             const res = await fetch(
               "https://coursesserver-ts.onrender.com/courses/addCourse",
               {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
 
-                body: JSON.stringify(data),
+                body: formData,
               }
             );
             const savedUser = await res.json();
@@ -60,62 +93,65 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
             }
           }}
         >
-          {({ errors, touched }) => (
-            <Form className=" mb-4 rounded  border-gray-400 border  float-left mt-16 sm:mt-20 w-[93vw] pb-3  flex flex-col sm:mx-0  sm:w-[545px] sm:max-h-[65vh]  bg-gray-200">
+          {() => (
+            <Form className="  bg-gray-900 w-full pb-3  flex flex-col sm:mx-0  sm:w-full   ">
               <p className=" sm:text-lg font-semibold sm:mr-3 ml-4 mt-2 sm:ml-5  text-gray-100  bg-red-600 w-fit px-3 rounded  ">
                 Course Details.
               </p>
-              <Field
-                className="focus:outline-none rounded-lg  mx-3 mt-4 px-4 sm:mx-10 py-2 mb-2 border border-gray-500 bg-gray-200"
-                id="title"
-                name="title"
-                placeholder="title"
-              />
-              {errors.title && touched.title ? (
-                <div className=" text-red-600 sm:ml-10  ml-4">
-                  {errors.title}
+              <div className=" sm:flex sm:flex-col sm:items-center">
+                <div className=" sm:flex sm:flex-col  mx-3 sm:w-[70%]   ">
+                  <Field
+                    className="focus:outline-none   text-gray-200  mt-4 px-4 w-full  py-2 sm:py-4  mb-3   bg-gray-700"
+                    id="title"
+                    name="title"
+                    placeholder="Title"
+                  />
+
+                  <MyTextArea
+                    className="focus:outline-none  text-gray-200 w-full h-24 sm:h-56 px-4  py-2 mb-2  bg-gray-700"
+                    id="desc"
+                    name="desc"
+                    placeholder="desc"
+                    label={null}
+                  />
                 </div>
-              ) : null}
-
-              <MyTextArea
-                className="focus:outline-none rounded-lg  mx-3 h-24 px-4 sm:mx-10 py-2 mb-2 border border-gray-500 bg-gray-200"
-                id="desc"
-                name="desc"
-                placeholder="desc"
-                label={null}
-              />
-              {errors.desc && touched.desc ? (
-                <div className=" text-red-600 sm:ml-10 ml-4">{errors.desc}</div>
-              ) : null}
-
-              <Field
-                className="focus:outline-none rounded-lg  mx-3 px-4 sm:mx-10 py-2 mb-2 border border-gray-500 bg-gray-200"
-                id="img"
-                name="img"
-                placeholder="img"
-                type="img"
-              />
-              {errors.img && touched.img ? (
-                <div className=" text-red-600 sm:ml-10 ml-4">{errors.img}</div>
-              ) : null}
-
-              <Field
-                className="focus:outline-none rounded-lg  mx-3 px-4 sm:mx-10 py-2 mb-2 border border-gray-500 bg-gray-200"
-                id="price"
-                name="price"
-                placeholder="price"
-                type="price"
-              />
-              {errors.price && touched.price ? (
-                <div className=" text-red-600 sm:ml-10 ml-4">
-                  {errors.price}
+                <div className=" sm:flex sm:w-[70%] ">
+                  <div className="  flex flex-col sm:w-1/2  border-gray-500   bg-gray-700 mx-3 sm:mx-0 p-3  ">
+                    {preview ? (
+                      <video className=" mb-2" controls src={preview}></video>
+                    ) : (
+                      <div className=" flex justify-center items-center border border-gray-500 border-dashed h-44 sm:h-56 mb-2 text-xl font-semibold text-gray-500 ">
+                        Video Preview
+                      </div>
+                    )}
+                    <input
+                      className=" text-gray-400"
+                      name="videoFile"
+                      type="file"
+                      onChange={handleFileChange}
+                      accept=".mov,.mp4"
+                    />
+                  </div>
+                  <div className=" mt-2 sm:mt-0 flex flex-col sm:w-1/2  bg-gray-700 sm:mr-0 mx-3 p-3">
+                    {imgPreview ? (
+                      <img className=" mb-2" src={imgPreview} alt="" />
+                    ) : (
+                      <div className=" flex justify-center items-center border border-gray-500 border-dashed h-44 sm:h-56 mb-2 text-xl font-semibold text-gray-500">
+                        Thumbnail Preview
+                      </div>
+                    )}
+                    <input
+                      className=" text-gray-400"
+                      name="imgFile"
+                      type="file"
+                      onChange={handleImage}
+                      accept=".jpg,.jpeg,.png"
+                    />
+                  </div>
                 </div>
-              ) : null}
-
-              {/* <p className=" text-red-500 ml-4 sm:ml-10">{alert}</p> */}
-
+              </div>
               <button
-                className=" text-white font-semibold bg-cyan-900 sm:mx-10 rounded m-4 mb-0 h-12 mt-7 hover:bg-red-800"
+                className="  px-4 text-white font-semibold w-fit bg-blue-600  rounded-3xl m-4 mb-3 h-12 mt-7 hover:bg-red-800"
                 type="submit"
               >
                 Publish

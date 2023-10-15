@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
+import cucu from "../data/cucu.json";
+import books from "../data/books.png";
+import cottage from "../data/cottage.png";
+import cloud from "../data/cloud.png";
+import Lottie from "lottie-react";
 
 interface MyFormVal {
   firstName: string;
@@ -25,8 +30,29 @@ const Register: React.FC<{}> = () => {
     navigate("/login");
   };
   return (
-    <div className=" h-[110vh] sm:h-[120vh] bg-gradient-to-bl from-purple-300 to-blue-400">
+    <div className=" h-[110vh] sm:h-[120vh] bg-yellow-400 ">
       <Navbar />
+      <div className="">
+        <Lottie
+          className=" lg:block hidden  h-32 absolute bottom-0 left-48 "
+          animationData={cucu}
+        />
+        <img
+          className=" hidden lg:block absolute h-64 sm:h-80  left-[-32px] top-[-64px]"
+          src={cloud}
+          alt="bookamin"
+        />
+        <img
+          className=" hidden lg:block absolute h-24 sm:h-56 rotate-12 left-[-20px] bottom-[-5px]"
+          src={books}
+          alt="bookamin"
+        />
+        <img
+          className=" hidden lg:block absolute h-80  right-0 bottom-[-16px]"
+          src={cottage}
+          alt="bookamin"
+        />
+      </div>
       <div className="  ">
         <Formik
           initialValues={initialVal}
@@ -54,12 +80,12 @@ const Register: React.FC<{}> = () => {
           }}
         >
           {({ errors, touched }) => (
-            <Form className=" sm:w-1/3 sm:ml-[450px] sm:py-8   float-left mt-20 sm:mt-20 w-[94%] ml-3 flex flex-col  bg-white">
-              <p className=" sm:text-lg font-semibold sm:mr-3 text-center ml-1 mt-2 sm:ml-5 animate-pulse text-black  mb-3  ">
+            <Form className=" z-20 sm:w-1/3 sm:ml-[450px] sm:py-8  rounded  float-left mt-20 sm:mt-20 w-[94%] ml-3 flex flex-col  bg-gray-900">
+              <p className=" sm:text-lg font-semibold sm:mr-3 text-center ml-1 mt-2 sm:ml-5 text-gray-400  mb-3  ">
                 Publish your own Courses on Fabina School. Register Now!
               </p>
               <Field
-                className="focus:outline-none rounded-lg  m-4 px-4 sm:mx-10 py-3 mb-2 border border-gray-300"
+                className="focus:outline-none  text-gray-300 bg-gray-500  m-4 px-4 sm:mx-10 py-3 mb-2 "
                 id="firstName"
                 name="firstName"
                 placeholder="Firstname"
@@ -71,7 +97,7 @@ const Register: React.FC<{}> = () => {
               ) : null}
 
               <Field
-                className="focus:outline-none rounded-lg  m-4 px-4 sm:mx-10 py-3 mb-2 border border-gray-300"
+                className="focus:outline-none  text-gray-300 bg-gray-500  m-4 px-4 sm:mx-10 py-3 mb-2 "
                 id="lastName"
                 name="lastName"
                 placeholder="Lastname"
@@ -83,7 +109,7 @@ const Register: React.FC<{}> = () => {
               ) : null}
 
               <Field
-                className="focus:outline-none rounded-lg  m-4 px-4 sm:mx-10 py-3 mb-2 border border-gray-300"
+                className="focus:outline-none  text-gray-300 bg-gray-500  m-4 px-4 sm:mx-10 py-3 mb-2 "
                 id="email"
                 name="email"
                 placeholder="Email"
@@ -96,7 +122,7 @@ const Register: React.FC<{}> = () => {
               ) : null}
 
               <Field
-                className="focus:outline-none rounded-lg m-4 px-4 sm:mx-10 py-3 mb-2 border border-gray-300"
+                className="focus:outline-none  text-gray-300 bg-gray-500 m-4 px-4 sm:mx-10 py-3 mb-2 "
                 id="password"
                 name="password"
                 placeholder="Password"
@@ -116,7 +142,7 @@ const Register: React.FC<{}> = () => {
               >
                 Register
               </button>
-              <p className=" ml-4 sm:ml-10 sm:mt-3 mt-1 mb-4">
+              <p className=" ml-4 sm:ml-10 text-gray-300 sm:mt-3 mt-1 mb-4">
                 Already have an Account&#63;
                 <strong onClick={handleLogin} className=" cursor-pointer">
                   Login Here.

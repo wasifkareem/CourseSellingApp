@@ -30,10 +30,12 @@ const Courses = () => {
   }, []);
 
   return (
-    <div className=" flex flex-wrap py-20 sm:ml-12 sm:min-h-[100vh] ">
-      {courses.map((item) => (
-        <CourseCard item={item} key={item._id} />
-      ))}
+    <div className=" shadow-2xl flex bg-[#dfeafd] flex-wrap pb-20 sm:justify-center  sm:min-h-[100vh] ">
+      <div className=" sm:flex sm:flex-wrap sm:w-[90%] ">
+        {courses.map((item) => (
+          <CourseCard item={item} key={item._id} />
+        ))}
+      </div>
     </div>
   );
 };
