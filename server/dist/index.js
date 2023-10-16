@@ -6,13 +6,9 @@ import courseRoute, { addCourse } from "./routes/courses.js";
 import authRoute from "./routes/auth.js";
 import helmet from "helmet";
 import bodyParser from "body-parser";
-import { fileURLToPath } from "url";
-import path from "path";
 import multer from "multer";
 const app = express();
 const port = 3000;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 dotenv.config();
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -25,7 +21,7 @@ mongoose
     .catch((err) => {
     console.log(err);
 });
-app.use("/assets", express.static(path.join(__dirname, "../public/assets")));
+app.use("/assets", express.static("../public/assets"));
 //File storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
