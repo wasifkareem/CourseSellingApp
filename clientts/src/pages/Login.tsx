@@ -63,7 +63,7 @@ const Login: React.FC<{}> = () => {
                 "Content-Type": "application/json",
               };
               const res = await axios.post(
-                "http://localhost:3000/auth/login",
+                "https://courseapp-lh7c.onrender.com/auth/login",
                 JSON.stringify(values),
                 { headers }
               );

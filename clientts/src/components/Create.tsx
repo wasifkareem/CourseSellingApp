@@ -49,7 +49,10 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
       setLoading(true);
       const data = new FormData();
       data.append("my_file", selectedFile);
-      const res = await axios.post("http://localhost:3000/upload", data);
+      const res = await axios.post(
+        "https://courseapp-lh7c.onrender.com/upload",
+        data
+      );
       setVidData(res.data);
     } catch (error) {
       alert(error.message);
@@ -77,7 +80,10 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
       setUploading(true);
       const data = new FormData();
       data.append("my_file", ImgFile);
-      const res = await axios.post("http://localhost:3000/upload", data);
+      const res = await axios.post(
+        "https://courseapp-lh7c.onrender.com/upload",
+        data
+      );
       setImgData(res.data);
     } catch (error) {
       alert(error.message);
@@ -106,10 +112,13 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
             formData.append("lastName", lastName);
             formData.append("imgPath", imgData.url);
 
-            const res = await fetch("http://localhost:3000/courses/addCourse", {
-              method: "POST",
-              body: formData,
-            });
+            const res = await fetch(
+              "https://courseapp-lh7c.onrender.com/courses/addCourse",
+              {
+                method: "POST",
+                body: formData,
+              }
+            );
             const savedUser = await res.json();
             if (savedUser._id) {
               if (savedUser) {

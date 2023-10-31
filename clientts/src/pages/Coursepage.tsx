@@ -22,7 +22,7 @@ const Coursepage: React.FC<{}> = () => {
     const courseDetail = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/courses/${courseid}`
+          `https://courseapp-lh7c.onrender.com/courses/${courseid}`
         );
 
         setCourseInfo(res.data);
