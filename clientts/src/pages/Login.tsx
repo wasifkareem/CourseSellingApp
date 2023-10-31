@@ -27,7 +27,7 @@ const Login: React.FC<{}> = () => {
     navigate("/register");
   };
   return (
-    <div className=" h-[100vh] bg-purple-700 ">
+    <div className=" flex justify-center h-[100vh] bg-purple-700 ">
       <Navbar />
       <div className="">
         <Lottie
@@ -50,7 +50,7 @@ const Login: React.FC<{}> = () => {
           alt="bookamin"
         />
       </div>
-      <div className=" border ">
+      <div className="  ">
         <Formik
           initialValues={initialValues}
           validationSchema={Yup.object().shape({
@@ -63,7 +63,7 @@ const Login: React.FC<{}> = () => {
                 "Content-Type": "application/json",
               };
               const res = await axios.post(
-                "https://coursesserver-ts.onrender.com/auth/login",
+                "http://localhost:3000/auth/login",
                 JSON.stringify(values),
                 { headers }
               );
@@ -79,13 +79,13 @@ const Login: React.FC<{}> = () => {
           }}
         >
           {({ errors, touched }) => (
-            <Form className=" sm:w-1/3 sm:ml-[450px]  float-left mt-32 w-[94%] ml-3 flex flex-col  bg-gray-900">
+            <Form className="z-20 sm:py-8  rounded  float-left mt-20 sm:mt-20 sm:w-[500px] w-full  flex flex-col  bg-gray-900">
               <p className=" font-semibold ml-4 mt-2 sm:ml-5  text-gray-400  mb-3 sm:text-xl">
                 {" "}
                 Welcome to Fabina School.
               </p>
               <Field
-                className="focus:outline-none   m-4 px-4 py-3 mb-2  text-gray-200 bg-gray-600"
+                className="focus:outline-none  text-gray-300 bg-gray-500  m-4 px-4 sm:mx-10 py-3 mb-2 "
                 id="email"
                 name="email"
                 placeholder="Enter your Email here.."
@@ -96,7 +96,7 @@ const Login: React.FC<{}> = () => {
               ) : null}
 
               <Field
-                className="focus:outline-none  m-4 px-4 py-3 mb-2  text-gray-200 bg-gray-600"
+                className="focus:outline-none  text-gray-300 bg-gray-500  m-4 px-4 sm:mx-10 py-3 mb-2 "
                 id="password"
                 name="password"
                 placeholder="Password"
@@ -109,12 +109,12 @@ const Login: React.FC<{}> = () => {
               <p className=" ml-4 text-red-600">{alert}</p>
 
               <button
-                className=" text-white font-semibold bg-cyan-900  m-4 mb-0 h-12 mt-7 focus:bg-red-800"
+                className=" text-white font-semibold bg-cyan-900 sm:ml-10 sm:w-[420px] m-4 mb-0 h-12 mt-7 focus:bg-red-800"
                 type="submit"
               >
                 Login
               </button>
-              <p className=" ml-4 mt-1 mb-4 text-gray-300">
+              <p className=" sm:ml-10 mx-4 mt-1 mb-4 text-gray-300">
                 Don&#39;t have an Account&#63;{" "}
                 <strong onClick={handleRegister} className=" cursor-pointer">
                   Signup Here.

@@ -2,6 +2,8 @@ import { Formik, Field, Form, useField } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import axios from "axios";
+import { BsCloudCheck, BsCloudArrowUp } from "react-icons/bs";
 
 interface ToogleProps {
   refresh: boolean;
@@ -11,16 +13,12 @@ interface ToogleProps {
 interface FormVal {
   title: string;
   desc: string;
-  videoFile: string;
-  imgFile: string;
 }
 
 const Create = ({ refresh, setRefresh }: ToogleProps) => {
   const initialValues: FormVal = {
     title: "",
     desc: "",
-    videoFile: "",
-    imgFile: "",
   };
   const educatorId = useSelector((state: any) => state.user.educator._id);
   const firstName = useSelector((state: any) => state.user.educator.firstName);
@@ -29,11 +27,15 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
   //VIDEO HANDLE
   const [selectedFile, setSelectedFile] = useState<any>();
   const [preview, setPreview] = useState<any>();
+  const [loading, setLoading] = useState(false);
+  const [vidData, setVidData] = useState(null);
+  console.log(vidData);
 
   const handleFileChange = (e: any) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
     const maxSize = 50 * 1024 * 1024;
+    setVidData(null);
 
     if (file && file.size > maxSize) {
       alert("max size allowed is 50MB");
@@ -42,14 +44,46 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
       setSelectedFile(e.target.files[0]);
     }
   };
+  const handleVid = async () => {
+    try {
+      setLoading(true);
+      const data = new FormData();
+      data.append("my_file", selectedFile);
+      const res = await axios.post("http://localhost:3000/upload", data);
+      setVidData(res.data);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   //IMG HANDLE
   const [ImgFile, setImgFile] = useState<any>();
   const [imgPreview, setImgPreview] = useState<any>();
+  const [uploading, setUploading] = useState(false);
+  const [imgData, setImgData] = useState(null);
+  console.log(imgData);
+
   const handleImage = (e: any) => {
+    setImgData(null);
     setImgFile(e.target.files[0]);
     const url = URL.createObjectURL(e.target.files[0]);
     setImgPreview(url);
+  };
+
+  const handleImg = async () => {
+    try {
+      setUploading(true);
+      const data = new FormData();
+      data.append("my_file", ImgFile);
+      const res = await axios.post("http://localhost:3000/upload", data);
+      setImgData(res.data);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -60,30 +94,22 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
           validationSchema={Yup.object().shape({
             title: Yup.string().required("Required!"),
             desc: Yup.string().required("Required!"),
-            videoFile: Yup.string(),
-            imgFile: Yup.string(),
           })}
           onSubmit={async (values: any, { resetForm }) => {
             const formData = new FormData();
             for (let value in values) {
               formData.append(value, values[value]);
             }
-            formData.append("videoFile", selectedFile);
-            formData.append("videoPath", selectedFile.name);
+            formData.append("videoPath", vidData.url);
             formData.append("educatorId", educatorId);
             formData.append("firstName", firstName);
             formData.append("lastName", lastName);
-            formData.append("imgPath", ImgFile.name);
-            formData.append("imgFile", ImgFile);
+            formData.append("imgPath", imgData.url);
 
-            const res = await fetch(
-              "https://coursesserver-ts.onrender.com/courses/addCourse",
-              {
-                method: "POST",
-
-                body: formData,
-              }
-            );
+            const res = await fetch("http://localhost:3000/courses/addCourse", {
+              method: "POST",
+              body: formData,
+            });
             const savedUser = await res.json();
             if (savedUser._id) {
               if (savedUser) {
@@ -118,35 +144,83 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
                 <div className=" sm:flex sm:w-[70%] ">
                   <div className="  flex flex-col sm:w-1/2  border-gray-500   bg-gray-700 mx-3 sm:mx-0 p-3  ">
                     {preview ? (
-                      <video className=" mb-2" controls src={preview}></video>
+                      <video
+                        className=" mb-2 h-44 sm:h-56"
+                        controls
+                        src={preview}
+                      ></video>
                     ) : (
                       <div className=" flex justify-center items-center border border-gray-500 border-dashed h-44 sm:h-56 mb-2 text-xl font-semibold text-gray-500 ">
                         Video Preview
                       </div>
                     )}
-                    <input
-                      className=" text-gray-400"
-                      name="videoFile"
-                      type="file"
-                      onChange={handleFileChange}
-                      accept=".mov,.mp4"
-                    />
+                    <div className=" flex justify-between">
+                      <input
+                        className=" text-gray-400"
+                        name="videoFile"
+                        type="file"
+                        onChange={handleFileChange}
+                        accept=".mov,.mp4"
+                      />
+                      {selectedFile && (
+                        <>
+                          {vidData ? (
+                            <button className="flex items-center gap-2 bg-green-500 font-semibold px-2 rounded-md text-white">
+                              Done
+                              <BsCloudCheck />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={handleVid}
+                              className=" flex items-center gap-2 bg-blue-500 font-semibold px-2 rounded-md text-white"
+                            >
+                              {loading ? "uploading..." : "upload "}
+                              <BsCloudArrowUp />
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
                   <div className=" mt-2 sm:mt-0 flex flex-col sm:w-1/2  bg-gray-700 sm:mr-0 mx-3 p-3">
                     {imgPreview ? (
-                      <img className=" mb-2" src={imgPreview} alt="" />
+                      <img
+                        className=" mb-2 h-44 sm:h-56 object-contain"
+                        src={imgPreview}
+                        alt=""
+                      />
                     ) : (
                       <div className=" flex justify-center items-center border border-gray-500 border-dashed h-44 sm:h-56 mb-2 text-xl font-semibold text-gray-500">
                         Thumbnail Preview
                       </div>
                     )}
-                    <input
-                      className=" text-gray-400"
-                      name="imgFile"
-                      type="file"
-                      onChange={handleImage}
-                      accept=".jpg,.jpeg,.png"
-                    />
+                    <div className=" flex justify-between">
+                      <input
+                        className=" text-gray-400"
+                        name="imgFile"
+                        type="file"
+                        onChange={handleImage}
+                        accept=".jpg,.jpeg,.png"
+                      />
+                      {ImgFile && (
+                        <>
+                          {imgData ? (
+                            <button className="flex items-center gap-2 bg-green-500 font-semibold px-2 rounded-md text-white">
+                              Done
+                              <BsCloudCheck />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={handleImg}
+                              className=" flex items-center gap-2 bg-blue-500 font-semibold px-2 rounded-md text-white"
+                            >
+                              {uploading ? "uploading..." : "upload "}
+                              <BsCloudArrowUp />
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

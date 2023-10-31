@@ -20,9 +20,7 @@ const Courses = () => {
   useEffect(() => {
     const getCourses = async () => {
       try {
-        const res = await axios.get(
-          "https://coursesserver-ts.onrender.com/courses/"
-        );
+        const res = await axios.get("http://localhost:3000/courses/");
         setCourses(res.data);
       } catch (err) {}
     };

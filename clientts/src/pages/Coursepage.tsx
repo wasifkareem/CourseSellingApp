@@ -22,7 +22,7 @@ const Coursepage: React.FC<{}> = () => {
     const courseDetail = async () => {
       try {
         const res = await axios.get(
-          `https://coursesserver-ts.onrender.com/courses/${courseid}`
+          `http://localhost:3000/courses/${courseid}`
         );
 
         setCourseInfo(res.data);
@@ -42,7 +42,7 @@ const Coursepage: React.FC<{}> = () => {
           <video
             className=" w-[95%] mx-2  "
             controls
-            src={`https://coursesserver-ts.onrender.com/assets/${courseInfo?.videoPath}`}
+            src={`${courseInfo?.videoPath}`}
           />
         </div>
         <div className="  flex flex-col mt-2 sm:w-1/2">

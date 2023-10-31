@@ -13,7 +13,7 @@ const CourseCard: React.FC<any> = ({ reload, setReload, item }) => {
   const handleDel = async () => {
     try {
       const res = await axios.delete(
-        `https://coursesserver-ts.onrender.com/courses/delete/${item._id}`
+        `http://localhost:3000/courses/delete/${item._id}`
       );
 
       if (res.data.educatorId) {
@@ -36,7 +36,7 @@ const CourseCard: React.FC<any> = ({ reload, setReload, item }) => {
       <img
         onClick={handleClick}
         className=" h-52 object-cover min-w-full"
-        src={`https://coursesserver-ts.onrender.com/assets/${item.imgPath}`}
+        src={`${item.imgPath}`}
         alt="python course"
       />
       <div>

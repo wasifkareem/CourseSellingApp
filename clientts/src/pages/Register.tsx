@@ -30,7 +30,7 @@ const Register: React.FC<{}> = () => {
     navigate("/login");
   };
   return (
-    <div className=" h-[110vh] sm:h-[120vh] bg-yellow-400 ">
+    <div className=" flex justify-center h-[110vh] sm:h-[120vh] bg-yellow-400 ">
       <Navbar />
       <div className="">
         <Lottie
@@ -64,7 +64,7 @@ const Register: React.FC<{}> = () => {
           })}
           onSubmit={async (values) => {
             const savedUserResponse = await fetch(
-              "https://coursesserver-ts.onrender.com/auth/register",
+              "http://localhost:3000/auth/register",
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -80,7 +80,7 @@ const Register: React.FC<{}> = () => {
           }}
         >
           {({ errors, touched }) => (
-            <Form className=" z-20 sm:w-1/3 sm:ml-[450px] sm:py-8  rounded  float-left mt-20 sm:mt-20 w-[94%] ml-3 flex flex-col  bg-gray-900">
+            <Form className=" z-20  sm:py-8  rounded  float-left mt-20 sm:mt-20 w-[94%] ml-3 flex flex-col  bg-gray-900">
               <p className=" sm:text-lg font-semibold sm:mr-3 text-center ml-1 mt-2 sm:ml-5 text-gray-400  mb-3  ">
                 Publish your own Courses on Fabina School. Register Now!
               </p>

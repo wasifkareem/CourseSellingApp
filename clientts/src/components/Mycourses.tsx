@@ -14,7 +14,7 @@ const Mycourses = (refresh: any) => {
     const getCourses = async () => {
       try {
         const res = await axios.get(
-          `https://coursesserver-ts.onrender.com/courses/user/${eduId}`
+          `http://localhost:3000/courses/user/${eduId}`
         );
         setCourses(res.data);
       } catch (err) {}
