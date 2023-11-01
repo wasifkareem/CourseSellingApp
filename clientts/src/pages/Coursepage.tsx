@@ -40,7 +40,7 @@ const Coursepage: React.FC<{}> = () => {
       <div className="sm:flex pb-5">
         <div className=" sm:w-1/2 w-full  pt-20 sm:pl-5 sm:ml-3 sm:h-[98vh] rounded-lg sm:rounded-none bg-gray-900 ">
           <video
-            className=" w-[95%] h-[100%] mx-2  "
+            className=" w-[95%] h-[63%] rounded-xl mx-2  "
             controls
             src={`${courseInfo?.videoPath}`}
           />
