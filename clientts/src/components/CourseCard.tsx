@@ -13,7 +13,7 @@ const CourseCard: React.FC<any> = ({ reload, setReload, item }) => {
   const handleDel = async () => {
     try {
       const res = await axios.delete(
-        `https://courseapp-lh7c.onrender.com/courses/delete/${item._id}`
+        `https://coursesserver-ts.onrender.com/courses/delete/${item._id}`
       );
 
       if (res.data.educatorId) {
