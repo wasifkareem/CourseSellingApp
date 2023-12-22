@@ -21,7 +21,7 @@ const Courses = () => {
     const getCourses = async () => {
       try {
         const res = await axios.get(
-          "https://coursesserver-ts.onrender.com/courses/"
+          "https://courseapp-lh7c.onrender.com/courses/"
         );
         setCourses(res.data);
       } catch (err) {}

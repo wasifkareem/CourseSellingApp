@@ -50,7 +50,7 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
       const data = new FormData();
       data.append("my_file", selectedFile);
       const res = await axios.post(
-        "https://coursesserver-ts.onrender.com/upload",
+        "https://courseapp-lh7c.onrender.com/upload",
         data
       );
       setVidData(res.data);
@@ -81,7 +81,7 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
       const data = new FormData();
       data.append("my_file", ImgFile);
       const res = await axios.post(
-        "https://coursesserver-ts.onrender.com/upload",
+        "https://courseapp-lh7c.onrender.com/upload",
         data
       );
       setImgData(res.data);
@@ -113,7 +113,7 @@ const Create = ({ refresh, setRefresh }: ToogleProps) => {
             formData.append("imgPath", imgData.url);
 
             const res = await fetch(
-              "https://coursesserver-ts.onrender.com/courses/addCourse",
+              "https://courseapp-lh7c.onrender.com/courses/addCourse",
               {
                 method: "POST",
                 body: formData,

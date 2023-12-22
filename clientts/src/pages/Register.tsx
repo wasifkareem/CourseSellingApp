@@ -64,7 +64,7 @@ const Register: React.FC<{}> = () => {
           })}
           onSubmit={async (values) => {
             const savedUserResponse = await fetch(
-              "https://coursesserver-ts.onrender.com/auth/register",
+              "https://courseapp-lh7c.onrender.com/auth/register",
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
