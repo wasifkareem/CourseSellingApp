@@ -1,2 +1,5 @@
-#Short Demo Video
-[![Video Title](https://img.youtube.com/vi/7hwCuTGAFZ8/0.jpg)](https://www.youtube.com/watch?v=7hwCuTGAFZ8)
+# Short demo video
+
+
+https://github.com/wasifkareem/CourseSellingApp/assets/119349657/241d07fc-d2c5-4bc3-93f7-db198a271a3f
+
